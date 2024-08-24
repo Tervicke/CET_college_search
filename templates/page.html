@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CET - College Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Filter Colleges</h1>
+        <div class="form-group">
+            <label for="min-percentile">Minimum Percentile</label>
+            <input type="number" id="min-percentile" name="min-percentile" placeholder="Enter minimum percentile" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="max-percentile">Maximum Percentile</label>
+            <input type="number" id="max-percentile" name="max-percentile" placeholder="Enter maximum percentile" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="seat-type-input">Seat Types
+                <a href="/info/seat-types" target="_blank" class="info-icon">
+                    &#9432;
+                </a>
+            </label>
+            <input type="text" id="seat-type-input" placeholder="Enter seat type ( GOPENH and GOPENS by default )">
+            <button type="button" class="add-btn" id="add-seat-type">Add</button>
+            <div id="seat-types-container" class="tags-container"></div>
+        </div>
+        <div class="form-group">
+            <label for="course-input">College Courses
+                <a href="/info/courses" target="_blank" class="info-icon">
+                    &#9432;
+                </a>
+            </label>
+            <input type="text" id="course-input" placeholder="Enter course name">
+            <button type="button" class="add-btn" id="add-course">Add</button>
+            <div id="courses-container" class="tags-container"></div>
+        </div>
+        <button type="submit" onclick="getSubmittedData()">Submit</button>
+    </div>
+
+    <div class="footer">
+        Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">tervicke</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
