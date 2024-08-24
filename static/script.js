@@ -43,7 +43,7 @@ async function getSubmittedData() {
 		seatTypes.push('GOPENS')
 
     const courses = Array.from(document.getElementById('courses-container').children)
-        .map(tag => tag.textContent.trim().slice(0, -1).trim()); // Remove the "×" and trim
+        .map(tag => tag.textContent.trim().slice(0, -1).trim().toLowerCase()); // Remove the "×" and trim
 
     const jsonData = {
         mn: minPercentile,
