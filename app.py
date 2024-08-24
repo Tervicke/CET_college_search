@@ -6,6 +6,7 @@ from flask import make_response
 from flask import session
 from flask import redirect , url_for
 from datetime import datetime
+import os
 import sqlite3
 import json
 
@@ -56,8 +57,14 @@ def result():
 def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
 
     college_list = []
+    db_path = ""
+    if os.path.isfile("test"):
+        db_path = 'data.db'
+    else:
+        db_path = '/home/tervicke/CET_college_search/data.db'
 
-    conn = sqlite3.connect('/home/tervicke/CET_college_search/data.db')
+    print(db_path)
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     courseslists_placeholder = ','.join(['?'] * len(courses_list)) 
