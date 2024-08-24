@@ -57,7 +57,7 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
 
     college_list = []
 
-    conn = sqlite3.connect('data.db')
+    conn = sqlite3.connect('/home/tervicke/CET_college_search/data.db')
     cursor = conn.cursor()
 
     courseslists_placeholder = ','.join(['?'] * len(courses_list)) 
