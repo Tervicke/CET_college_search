@@ -6,6 +6,7 @@ from flask import make_response
 from flask import session
 from flask import redirect , url_for
 from datetime import datetime
+import Levenshtein
 import os
 import sqlite3
 import json
@@ -54,6 +55,10 @@ def result():
     cutoffdata = session.get('cutoff_data',[])
     return render_template('result.html', data=cutoffdata)
 
+def is_similiar(course1 , course2):
+    ratio = Levenshtein.ratio(course1.lower(), course2.lower())
+    return ratio >= 0.8 
+
 def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
 
     college_list = []
@@ -67,8 +72,21 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    courseslists_placeholder = ','.join(['?'] * len(courses_list)) 
+    #use the levenstein algorthim to the check the similiarty of branches
+    cursor.execute("SELECT course_name FROM courses")
+    all_courses = cursor.fetchall()
+
+    similiar_courses = []
+    for course in all_courses:
+        for input_course in courses_list:
+            if is_similiar(input_course,course[0]):
+                similiar_courses.append(course[0])
+
+    print(similiar_courses)
+
+    courseslists_placeholder = ','.join(['?'] * len(similiar_courses)) 
     seatlists_placeholder = ','.join(['?'] * len(seats_list)) 
+
     try:
         # Execute the query
         query =f'''
@@ -89,7 +107,7 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
             AND co.seattype IN ({seatlists_placeholder})
             AND cr.course_name IN ({courseslists_placeholder})
         '''
-        param = [mn,mx] + seats_list + courses_list 
+        param = [mn,mx] + seats_list + similiar_courses 
         cursor.execute(query , param)
 
         # Fetch all results
