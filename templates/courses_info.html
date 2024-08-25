@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Courses</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .course-list {
+            counter-reset: course-counter;
+            padding-left: 0;
+        }
+        .course-list li {
+            background-color: #f0f0f0;
+            margin: 12px 0;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #555;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            list-style: none;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .course-list li:hover {
+            background-color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .course-list li::before {
+            counter-increment: course-counter;
+            content: counter(course-counter) ".";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #555;
+            font-size: 20px;
+        }
+        .course-name {
+            margin-left: 40px;
+            flex-grow: 1;
+        }
+        .course-count {
+            background-color: #7a7a7a;
+            border-radius: 5px;
+            padding: 7px 15px;
+            font-size: 16px;
+            color: #fff;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Courses</h1>
+        <ol class="course-list">
+            {% for course in data %}
+                <li>
+                    <span class="course-name">{{ course[0] }}</span>
+                    <span class="course-count">{{ course[1] }} Colleges</span>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</body>
+</html>

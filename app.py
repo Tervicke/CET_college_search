@@ -6,6 +6,7 @@ from flask import make_response
 from flask import session
 from flask import redirect , url_for
 from datetime import datetime
+from flask_session import Session
 import Levenshtein
 import os
 import sqlite3
@@ -15,12 +16,38 @@ app = Flask(__name__)
 
 app.secret_key = 'fa59ff82e20efce0d3f9f1ba2657d5d0'
 
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = True  #remove the same site cookie warning on firefox
+#app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+#app.config['SESSION_COOKIE_SECURE'] = True  #remove the same site cookie warning on firefox
+
+app.config['SESSION_TYPE'] = 'filesystem'  # Change as needed
+app.config['SESSION_FILE_DIR'] = './flask_session/'  # Directory to store session files
+app.config['SESSION_PERMANENT'] = False
+app.config['SESSION_USE_SIGNER'] = True
+
+Session(app)
+
+#set the db path
+db_path = ""
+if os.path.isfile("test"):
+    db_path = 'data.db'
+else:
+    db_path = '/home/tervicke/CET_college_search/data.db'
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'),404
 
+@app.route("/info/courses")
+def courses():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT course_name,college_count FROM courses")
+    all_courses = cursor.fetchall()
+
+    conn.close()
+    
+    return render_template("courses_info.html",data=all_courses)
 @app.route("/")
 def index():
     session['cutoff_data'] = []
@@ -62,11 +89,6 @@ def is_similiar(course1 , course2):
 def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
 
     college_list = []
-    db_path = ""
-    if os.path.isfile("test"):
-        db_path = 'data.db'
-    else:
-        db_path = '/home/tervicke/CET_college_search/data.db'
 
     print(db_path)
     conn = sqlite3.connect(db_path)
@@ -75,14 +97,15 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
     #use the levenstein algorthim to the check the similiarty of branches
     cursor.execute("SELECT course_name FROM courses")
     all_courses = cursor.fetchall()
+    
+    similiar_courses = courses_list
+    #similiar_courses = []
+    #for course in all_courses:
+        #for input_course in courses_list:
+            #if is_similiar(input_course,course[0]):
+                #similiar_courses.append(course[0])
 
-    similiar_courses = []
-    for course in all_courses:
-        for input_course in courses_list:
-            if is_similiar(input_course,course[0]):
-                similiar_courses.append(course[0])
-
-    print(similiar_courses)
+    #print(similiar_courses)
 
     courseslists_placeholder = ','.join(['?'] * len(similiar_courses)) 
     seatlists_placeholder = ','.join(['?'] * len(seats_list)) 
