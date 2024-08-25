@@ -1,3 +1,4 @@
+/* General body and container styles */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #f8f9fa;
@@ -105,7 +106,7 @@ button[type="submit"]:hover {
 .add-btn:hover {
     background-color: #218838;
 }
-
+/* Footer styling */
 .footer {
     text-align: center;
     margin-top: 20px; /* Reduced margin */
@@ -125,7 +126,7 @@ button[type="submit"]:hover {
 
 .info-icon {
     text-decoration: none;
-    color: #007bff; 
+    color: #007bff;
     font-size: 14px; /* Slightly smaller font */
 }
 
