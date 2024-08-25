@@ -51,7 +51,12 @@ def courses():
 @app.route("/")
 def index():
     session['cutoff_data'] = []
-    return render_template('page.html')
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT course_name FROM courses")
+    all_courses = cursor.fetchall()
+    return render_template('page.html',choices=all_courses)
 
 @app.route("/process", methods=['POST'])
 def process():

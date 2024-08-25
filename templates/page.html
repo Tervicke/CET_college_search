@@ -5,45 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CET - College Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .info-icon {
-            text-decoration: none;
-            color: blue;
-            margin-left: 5px;
-        }
-        .info-icon:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>Filter Colleges</h1>
-        <div class="form-group">
-            <label for="min-percentile">Minimum Percentile</label>
-            <input type="number" id="min-percentile" name="min-percentile" placeholder="Enter minimum percentile" min="0" max="100">
-        </div>
-        <div class="form-group">
-            <label for="max-percentile">Maximum Percentile</label>
-            <input type="number" id="max-percentile" name="max-percentile" placeholder="Enter maximum percentile" min="0" max="100">
-        </div>
-        <div class="form-group">
-            <label for="seat-type-input">Seat Types
-                <a href="/info/seat-types" target="_blank" class="info-icon">&#9432;</a> (click to see more info)
-            </label>
-            <input type="text" id="seat-type-input" placeholder="Enter seat type (GOPENH and GOPENS by default)">
-            <button type="button" class="add-btn" id="add-seat-type">Add</button>
-            <div id="seat-types-container" class="tags-container"></div>
-        </div>
-        <div class="form-group">
-            <label for="course-input">College Courses
-                <a href="/info/courses" target="_blank" class="info-icon">&#9432;</a> (click to see more info)
-            </label>
-            <input type="text" id="course-input" placeholder="Enter course name">
-            <button type="button" class="add-btn" id="add-course">Add</button>
-            <div id="courses-container" class="tags-container"></div>
-        </div>
-        <button type="submit" onclick="getSubmittedData()">Search</button>
+        <form id="search-form">
+            <div class="form-group">
+                <label for="min-percentile">Minimum Percentile</label>
+                <input type="number" id="min-percentile" name="min-percentile" placeholder="Enter minimum percentile" min="0" max="100">
+            </div>
+            <div class="form-group">
+                <label for="max-percentile">Maximum Percentile</label>
+                <input type="number" id="max-percentile" name="max-percentile" placeholder="Enter maximum percentile" min="0" max="100">
+            </div>
+            <div class="form-group">
+                <label for="seat-type-input">Seat Types
+                    <a href="/info/seat-types" target="_blank" class="info-icon">&#9432;</a> (click to see more info)
+                </label>
+                <input type="text" id="seat-type-input" placeholder="Enter seat type (GOPENH and GOPENS by default)">
+                <button type="button" class="add-btn" id="add-seat-type">Add</button>
+                <div id="seat-types-container" class="tags-container"></div>
+            </div>
+            <div class="form-group">
+                <label for="course-select">College Courses
+                    <a href="/info/courses" target="_blank" class="info-icon">&#9432;</a> (click to see more info)
+                </label>
+                <select id="course-select" class="dropdown-select">
+                    {% for course in choices %}
+                        <option value="{{ course[0] }}">{{ course[0] }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" class="add-btn" id="add-course">Add</button>
+                <div id="courses-container" class="tags-container"></div>
+            </div>
+            <button type="submit" onclick="getSubmittedData(); return false;">Search</button>
+        </form>
     </div>
 
     <div class="footer">

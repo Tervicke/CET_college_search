@@ -60,9 +60,11 @@ input[type="text"] {
     border-radius: 20px;
     font-size: 14px;
     color: #333;
+    max-width: calc(100% - 20px);
+    word-wrap: break-word;
 }
 
-.tag button {
+.remove-btn {
     border: none;
     background-color: transparent;
     color: #dc3545;
@@ -97,7 +99,6 @@ button[type="submit"]:hover {
     cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
-    float: right;
     box-sizing: border-box;
 }
 
@@ -119,10 +120,23 @@ button[type="submit"]:hover {
 }
 
 .footer a:hover {
-		text-decoration: underline;
+    text-decoration: underline;
 }
+
 .info-icon {
-		text-decoration: none;
-		color: #007bff; 
-		font-size:15px;
+    text-decoration: none;
+    color: #007bff; 
+    font-size: 15px;
+}
+
+.dropdown-select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
