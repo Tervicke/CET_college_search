@@ -9,6 +9,7 @@
 <body>
     <div class="container">
         <h1>Colleges Information</h1>
+        {% if data %}
         <table>
             <thead>
                 <tr>
@@ -19,24 +20,23 @@
                 </tr>
             </thead>
             <tbody>
-                {% if data %}
-                    {% for item in data %}
-                    <tr>
-                        <td>{{ item.college_name }}</td>
-                        <td>{{ item.course_name }}</td>
-                        <td>{{ item.cutoff_percentile }}</td>
-                        <td>{{ item.seattype }}</td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4">No data available</td>
-                    </tr>
-                {% endif %}
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.college_name }}</td>
+                    <td>{{ item.course_name }}</td>
+                    <td>{{ item.cutoff_percentile }}</td>
+                    <td>{{ item.seattype }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <div class="no-data">
+            No data available.
+        </div>
+        {% endif %}
     </div>
-	  <div class="footer">
+    <div class="footer">
         Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">tervicke</a>
     </div>
 </body>

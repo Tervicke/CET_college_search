@@ -48,6 +48,16 @@ tr:hover {
     background-color: #ddd;
 }
 
+.no-data {
+    text-align: center;
+    font-size: 18px;
+    color: #777;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
 /* Responsive styles */
 @media screen and (max-width: 768px) {
     .container {
@@ -85,6 +95,11 @@ tr:hover {
 
     .footer {
         font-size: 14px;
+    }
+
+    .no-data {
+        font-size: 16px;
+        padding: 15px;
     }
 }
 
