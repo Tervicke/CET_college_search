@@ -70,7 +70,57 @@
             color: #fff;
             font-weight: bold;
             white-space: nowrap;
+            margin-right: 10px;
         }
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #007bff;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .copy-btn:hover {
+            color: #0056b3;
+        }
+        .copy-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .copy-btn:hover::after {
+            opacity: 1;
+        }
+
+				.footer {
+						text-align: center;
+						margin-top: 30px;
+						padding: 10px;
+						font-size: 16px;
+						color: #666;
+				}
+
+				.footer a {
+						color: #007bff;
+						text-decoration: none;
+				}
+
+				.footer a:hover {
+						text-decoration: underline;
+				}
+
     </style>
 </head>
 <body>
@@ -81,9 +131,32 @@
                 <li>
                     <span class="course-name">{{ course[0] }}</span>
                     <span class="course-count">{{ course[1] }} Colleges</span>
+                    <button class="copy-btn" data-tooltip="Copy to clipboard" onclick="copyToClipboard('{{ course[0] }}')">
+                        &#x1F4CB; <!-- Clipboard icon -->
+                    </button>
                 </li>
             {% endfor %}
         </ol>
     </div>
+
+	  <div class="footer">
+        Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">tervicke</a>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            const btn = event.currentTarget;
+            btn.setAttribute('data-tooltip', 'Copied!');
+            setTimeout(() => {
+                btn.setAttribute('data-tooltip', 'Copy to clipboard');
+            }, 1500);
+        }
+    </script>
 </body>
 </html>
