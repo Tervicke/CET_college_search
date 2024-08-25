@@ -72,4 +72,19 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #ddd;
 }
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 16px;
+    color: #666;
+}
 
+.footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+		text-decoration: underline;
+}
