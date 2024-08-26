@@ -34,29 +34,46 @@ function attachRemoveHandler(tagElement) {
 }
 
 async function getSubmittedData() {
-    const minPercentile = document.getElementById('min-percentile').value.trim();
-    const maxPercentile = document.getElementById('max-percentile').value.trim();
-    
-    var seatTypes = Array.from(document.getElementById('seat-types-container').children)
-        .map(tag => tag.textContent.trim().slice(0, -1).trim()); 
+	const minPercentile = document.getElementById('min-percentile').value.trim();
+	const maxPercentile = document.getElementById('max-percentile').value.trim();
+	
+	var seatTypes = Array.from(document.getElementById('seat-types-container').children)
+			.map(tag => tag.textContent.trim().slice(0, -1).trim()); 
 
-    seatTypes.push('GOPENH');
-    seatTypes.push('GOPENS');
+	seatTypes.push('GOPENH');
+	seatTypes.push('GOPENS');
 
-    const courses = Array.from(document.getElementById('courses-container').children)
-        .map(tag => tag.textContent.trim().slice(0, -1).trim().toLowerCase()); // Remove the "×" and trim
+	const courses = Array.from(document.getElementById('courses-container').children)
+			.map(tag => tag.textContent.trim().slice(0, -1).trim().toLowerCase()); // Remove the "×" and trim
 
-    const jsonData = {
-        mn: minPercentile,
-        mx: maxPercentile,
-        seattype: seatTypes,
-        courses: courses
-    };
+	let has_error = false;
 
-    const jsonString = JSON.stringify(jsonData, null, 2);
+	clearErrors();	
+
+	if(courses.length == 0){
+		displayGlobalError("Please add atleast 1 course")
+		has_error = true;
+	}
+
+	if(!minPercentile || !maxPercentile)	{
+		displayGlobalError("Please fill the percentile fields")
+		has_error = true;
+	}
+	if (minPercentile && maxPercentile && parseFloat(maxPercentile) < parseFloat(minPercentile)) {
+		has_error = true;
+		displayGlobalError("Make sure that min percentile < max percentile")
+  }
+	const jsonData = {
+			mn: minPercentile,
+			mx: maxPercentile,
+			seattype: seatTypes,
+			courses: courses
+	};
+
+  const jsonString = JSON.stringify(jsonData, null, 2);
 
     console.log(jsonString);
-
+	if(!has_error){
     try {
         const response = await fetch('/process', {
             method: 'POST',
@@ -74,4 +91,16 @@ async function getSubmittedData() {
     } catch (error) {
         console.error('Fetch error:', error);
     }
+	}
+}
+function displayGlobalError(message) {
+    const globalErrorElement = document.getElementById('global-error');
+    globalErrorElement.textContent = message;
+    globalErrorElement.style.display = 'block';
+}
+
+function clearErrors() {
+    const globalErrorElement = document.getElementById('global-error');
+    globalErrorElement.style.display = 'none';
+    globalErrorElement.textContent = '';
 }
