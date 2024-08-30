@@ -11,16 +11,17 @@
 <body>
     <div class="container">
         <h1>Filter Colleges</h1>
+
         <form id="search-form">
 					  <div id="global-error" class="error-message global-error"></div>
-            <div class="form-group">
-                <label for="min-percentile">Minimum Percentile</label>
-                <input type="number" id="min-percentile" name="min-percentile" placeholder="Enter minimum percentile" min="0" max="100">
-            </div>
-            <div class="form-group">
-                <label for="max-percentile">Maximum Percentile</label>
-                <input type="number" id="max-percentile" name="max-percentile" placeholder="Enter maximum percentile" min="0" max="100">
-            </div>
+				<div class="form-group form-group-inline">
+				<label for="percentile-range">Percentile Range</label>
+				<div class="range-inputs">
+						<input type="number" id="min-percentile" name="min-percentile" placeholder="Min" min="0" max="100">
+						<span class="range-separator">-</span>
+						<input type="number" id="max-percentile" name="max-percentile" placeholder="Max" min="0" max="100">
+						</div>
+					</div>
             <div class="form-group">
                 <label for="seat-type-input">Seat Types
                     <a href="/info/seat-types" target="_blank" class="info-icon">&#9432;</a> (click to see more info)
@@ -41,12 +42,22 @@
                 <button type="button" class="add-btn" id="add-course">Add</button>
                 <div id="courses-container" class="tags-container"></div>
             </div>
+            <div class="form-group">
+                <label for="city-select">District</label>
+                <select id="city-select" class="dropdown-select">
+                    {% for city in cities %}
+                        <option value="{{ city[0] }}">{{ city[0] }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" class="add-btn" id="add-city">Add</button>
+                <div id="city-container" class="tags-container"></div>
+            </div>
             <button type="submit" onclick="getSubmittedData(); return false;">Search</button>
         </form>
     </div>
 
     <div class="footer">
-        Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">tervicke</a>
+        Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">Tervicke</a>
 				<br>Explore the code and contribute on <a href="https://github.com/tervicke/CET_college_search" target="_blank">GitHub</a>
     </div>
 

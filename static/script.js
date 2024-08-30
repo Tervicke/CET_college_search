@@ -15,6 +15,14 @@ document.getElementById('add-course').addEventListener('click', function() {
     }
 });
 
+document.getElementById('add-city').addEventListener('click', function() {
+    const courseSelect = document.getElementById('city-select');
+    const course = courseSelect.value.trim();
+    if (course) {
+        addTag('city-container', course);
+    }
+});
+
 function addTag(containerId, value) {
     const container = document.getElementById(containerId);
     const tag = document.createElement('div');
@@ -44,7 +52,10 @@ async function getSubmittedData() {
 	seatTypes.push('GOPENS');
 
 	const courses = Array.from(document.getElementById('courses-container').children)
-			.map(tag => tag.textContent.trim().slice(0, -1).trim().toLowerCase()); // Remove the "×" and trim
+			.map(tag => tag.textContent.trim().slice(0, -1).trim()); // Remove the "×" and trim
+
+	const cities = Array.from(document.getElementById('city-container').children)
+			.map(tag => tag.textContent.trim().slice(0, -1).trim()); // Remove the "×" and trim
 
 	let has_error = false;
 
@@ -67,7 +78,8 @@ async function getSubmittedData() {
 			mn: minPercentile,
 			mx: maxPercentile,
 			seattype: seatTypes,
-			courses: courses
+			courses: courses,
+			cities: cities
 	};
 
   const jsonString = JSON.stringify(jsonData, null, 2);

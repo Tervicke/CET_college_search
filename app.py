@@ -56,7 +56,11 @@ def index():
 
     cursor.execute("SELECT course_name FROM courses")
     all_courses = cursor.fetchall()
-    return render_template('page.html',choices=all_courses)
+
+    cursor.execute("SELECT DISTINCT city FROM colleges")
+    cities = cursor.fetchall()
+
+    return render_template('page.html',choices=all_courses,cities=cities)
 
 @app.route("/process", methods=['POST'])
 def process():
@@ -65,6 +69,14 @@ def process():
     max_percentile = data.get('mx')
     seat_types = data.get('seattype')
     courses = data.get('courses')
+    cities = data.get('cities')
+    if len(cities) == 0:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT city FROM colleges")
+        cities = cursor.fetchall()
+        cities = [city[0] for city in cities]
+        conn.close()
 
     print(f'''
     -------------------------------------------
@@ -74,9 +86,10 @@ def process():
     Max Percentile: {max_percentile}
     Seat Types: {seat_types}
     Courses: {courses}
+    Cities : {cities}
     -------------------------------------------
     ''')
-    cutoffdata = get_filtered_cutoffs(min_percentile , max_percentile , seat_types , courses)
+    cutoffdata = get_filtered_cutoffs(min_percentile , max_percentile , seat_types , courses , cities)
 
     session['cutoff_data'] = cutoffdata
 
@@ -91,7 +104,7 @@ def is_similiar(course1 , course2):
     ratio = Levenshtein.ratio(course1.lower(), course2.lower())
     return ratio >= 0.8 
 
-def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
+def get_filtered_cutoffs(mn , mx , seats_list , courses_list , college_cities):
 
     college_list = []
 
@@ -114,6 +127,7 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
 
     courseslists_placeholder = ','.join(['?'] * len(similiar_courses)) 
     seatlists_placeholder = ','.join(['?'] * len(seats_list)) 
+    citylist_placeholder = ','.join(['?'] * len(college_cities))
 
     try:
         # Execute the query
@@ -134,8 +148,9 @@ def get_filtered_cutoffs(mn , mx , seats_list , courses_list):
             co.percentile BETWEEN ? AND ? 
             AND co.seattype IN ({seatlists_placeholder})
             AND cr.course_name IN ({courseslists_placeholder})
+            AND c.city IN ({citylist_placeholder}) 
         '''
-        param = [mn,mx] + seats_list + similiar_courses 
+        param = [mn,mx] + seats_list + similiar_courses + college_cities
         cursor.execute(query , param)
 
         # Fetch all results

@@ -147,3 +147,29 @@ button[type="submit"]:hover {
     font-size: 1em;
     display: none; /* Hide by default */
 }
+.form-group-inline {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* Margin adjustment */
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center; /* Align items vertically centered */
+    gap: 8px; /* Space between input fields */
+}
+
+.range-inputs input[type="number"] {
+    width: calc(50% - 10px); /* Half width with some gap */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.range-separator {
+    font-size: 16px; /* Slightly larger for visual clarity */
+    color: #555;
+}
