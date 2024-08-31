@@ -5,40 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College List</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='result_style.css') }}">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Colleges Information</h1>
-        {% if data %}
-        <table>
-            <thead>
-                <tr>
-                    <th>College Name</th>
-                    <th>Course Name</th>
-                    <th>Cutoff Percentile</th>
-                    <th>Seat Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in data %}
-                <tr>
-                    <td>{{ item.college_name }}</td>
-                    <td>{{ item.course_name }}</td>
-                    <td>{{ item.cutoff_percentile }}</td>
-                    <td>{{ item.seattype }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <div class="no-data">
-            No data available.
-        </div>
-        {% endif %}
+			<table id="collegeTable">
+    <thead>
+        <tr>
+            <th>College Name</th>
+            <th>Course Name</th>
+            <th>Cutoff Percentile</th>
+            <th>Seat Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>{{ item.college_name }}</td>
+            <td>{{ item.course_name }}</td>
+            <td>{{ item.cutoff_percentile }}</td>
+            <td>{{ item.seattype }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
     </div>
     <div class="footer">
         Made with ❤️ by <a href="https://tervicke.netlify.app/" target="_blank">tervicke</a>
     </div>
 </body>
+<script>
+$(document).ready(function() {
+    $('#collegeTable').DataTable({
+        "paging": true,            
+        "searching": true,         
+        "ordering": true,          
+        "info": true               
+    });
+});
+</script>
 </html>
 
