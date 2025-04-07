@@ -42,9 +42,9 @@ function attachRemoveHandler(tagElement) {
 }
 
 async function getSubmittedData() {
-	const minPercentile = document.getElementById('min-percentile').value.trim();
-	const maxPercentile = document.getElementById('max-percentile').value.trim();
-	
+	var minPercentile = document.getElementById('min-percentile').value.trim();
+	var maxPercentile = document.getElementById('max-percentile').value.trim();
+
 	var seatTypes = Array.from(document.getElementById('seat-types-container').children)
 			.map(tag => tag.textContent.trim().slice(0, -1).trim()); 
 
@@ -65,11 +65,14 @@ async function getSubmittedData() {
 		displayGlobalError("Please add atleast 1 course")
 		has_error = true;
 	}
-
-	if(!minPercentile || !maxPercentile)	{
-		displayGlobalError("Please fill the percentile fields")
-		has_error = true;
+	//set the max and min percentile to default value i.e 0 and 100 if they are empty string
+	if(!minPercentile){
+		minPercentile = 0;
 	}
+	if(maxPercentile){
+		maxPercentile = 0;
+	}
+
 	if (minPercentile && maxPercentile && parseFloat(maxPercentile) < parseFloat(minPercentile)) {
 		has_error = true;
 		displayGlobalError("Make sure that min percentile < max percentile")
