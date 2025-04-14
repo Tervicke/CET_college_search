@@ -45,6 +45,9 @@ async function getSubmittedData() {
 	var minPercentile = document.getElementById('min-percentile').value.trim();
 	var maxPercentile = document.getElementById('max-percentile').value.trim();
 
+	console.log(minPercentile)
+	console.log(maxPercentile)
+
 	var seatTypes = Array.from(document.getElementById('seat-types-container').children)
 			.map(tag => tag.textContent.trim().slice(0, -1).trim()); 
 
@@ -65,18 +68,21 @@ async function getSubmittedData() {
 		displayGlobalError("Please add atleast 1 course")
 		has_error = true;
 	}
+	
 	//set the max and min percentile to default value i.e 0 and 100 if they are empty string
 	if(!minPercentile){
 		minPercentile = 0;
 	}
-	if(maxPercentile){
-		maxPercentile = 0;
+	
+	if(!maxPercentile){
+		maxPercentile = 100;
 	}
 
 	if (minPercentile && maxPercentile && parseFloat(maxPercentile) < parseFloat(minPercentile)) {
 		has_error = true;
 		displayGlobalError("Make sure that min percentile < max percentile")
   }
+
 	const jsonData = {
 			mn: minPercentile,
 			mx: maxPercentile,
@@ -84,9 +90,11 @@ async function getSubmittedData() {
 			courses: courses,
 			cities: cities
 	};
+	console.log(jsonData);
 
   const jsonString = JSON.stringify(jsonData, null, 2);
 
+	console.log(jsonString)
     console.log(jsonString);
 	if(!has_error){
     try {
@@ -108,6 +116,8 @@ async function getSubmittedData() {
     }
 	}
 }
+
+
 function displayGlobalError(message) {
     const globalErrorElement = document.getElementById('global-error');
     globalErrorElement.textContent = message;
